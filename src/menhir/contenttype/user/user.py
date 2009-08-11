@@ -1,24 +1,38 @@
 # -*- coding: utf-8 -*-
 
 import grok
-from z3c.form import field, button
 import dolmen.content as content
-from dolmen.app.layout import models as layout
-from dolmen.app.authentication import IUser, IPrincipal, IChangePassword
+
+from z3c.form import field, button
+from zope.interface import Interface
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
+from zope.traversing.browser import absoluteURL
 from zope.app.authentication.interfaces import IPasswordManager
+
+from dolmen.blob import BlobProperty
+from dolmen.imaging import ImageField
+from dolmen.app.layout import models as layout
+from dolmen.app.authentication import IUser, IPrincipal, IChangePassword
 
 _ = MessageFactory("dolmen")
 
 
+class IPortrait(Interface):
+    portrait = ImageField(
+        title = _(u"Portrait"),
+        required = False
+        )
+ 
+
 class User(content.Container):
     content.icon('user.png')
     content.name('User')
-    content.schema(IUser)
+    content.schema(IUser, IPortrait)
     content.require('dolmen.security.AddUsers')
 
     relations = None
+    portrait = BlobProperty(IPortrait['portrait'])
 
     def __init__(self):
         content.Container.__init__(self)
@@ -38,17 +52,21 @@ class User(content.Container):
         return passwordmanager.checkPassword(self.password, password)
 
 
-
-class UserView(layout.DefaultView):
+class UserView(layout.Index):
     grok.name('index')
     grok.context(IUser)
-    fields = field.Fields(IPrincipal).omit('description')
+
+    def update(self):
+        url = absoluteURL(self.context, self.request)
+        if self.context.portrait is not None:
+            self.thumbnail = "%s/++thumbnail++portrait.thumb" % url
+            self.popup_url = "%s/++thumbnail++portrait.large" % url       
 
 
 class UserEdit(layout.Edit):
     grok.name('edit')
     grok.context(IUser)
-    fields = field.Fields(IPrincipal).omit('id', 'description')
+    fields = field.Fields(IPrincipal, IPortrait).omit('id', 'description')
 
 
 class UserPassword(layout.Form, layout.TabView):
