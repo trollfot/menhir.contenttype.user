@@ -1,0 +1,15 @@
+<div class="user-profile">
+
+  <div class="image-wrapper portrait" tal:condition="context/portrait">
+    <a href="" class="image-link"
+       tal:attributes="href view/popup_url;
+		       title context/title"
+       ><img tal:attributes="src view/thumbnail" /></a>
+  </div>
+
+  <h1 tal:content="context/title" />
+  <h3>
+    <span i18n:translate="Username">Username :</span>
+    <span tal:content="context/id" class="userid" />
+  </h3>
+</div>
