@@ -73,6 +73,7 @@ class UserPassword(layout.Form, layout.TabView):
     grok.name('change_passwd')
     grok.title("Change password")
     grok.context(IUser)
+    grok.require("dolmen.content.Edit")
     fields = field.Fields(IChangePassword)
 
     form_name = _('Change password')
