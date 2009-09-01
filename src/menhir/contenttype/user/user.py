@@ -21,7 +21,8 @@ _ = MessageFactory("dolmen")
 class IPortrait(Interface):
     portrait = ImageField(
         title = _(u"Portrait"),
-        required = False
+        required = False,
+        default = None
         )
  
 
