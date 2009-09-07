@@ -3,7 +3,7 @@
 import grok
 import dolmen.content as content
 
-from z3c.form import field, button
+from z3c.form import button, field
 from zope.interface import Interface
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
@@ -13,6 +13,7 @@ from zope.app.authentication.interfaces import IPasswordManager
 from dolmen.blob import BlobProperty
 from dolmen.imaging import ImageField
 from dolmen.app.layout import models as layout
+from dolmen.forms.crud import FieldsCustomizer, IAddForm
 from dolmen.app.authentication import IUser, IPrincipal, IChangePassword
 
 _ = MessageFactory("dolmen")
@@ -62,6 +63,14 @@ class UserView(layout.Index):
         if self.context.portrait is not None:
             self.thumbnail = "%s/++thumbnail++portrait.thumb" % url
             self.popup_url = "%s/++thumbnail++portrait.large" % url       
+
+
+class UserAddFields(FieldsCustomizer):
+    grok.context(IUser)
+    grok.adapts(IUser, IAddForm, Interface)
+
+    def __call__(self, fields):
+        return fields.omit('description')
 
 
 class UserEdit(layout.Edit):
