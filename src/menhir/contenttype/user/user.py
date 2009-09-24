@@ -13,7 +13,8 @@ from zope.app.authentication.interfaces import IPasswordManager
 from dolmen.blob import BlobProperty
 from dolmen.imaging import ImageField
 from dolmen.app.layout import models as layout
-from dolmen.forms.crud import FieldsCustomizer, IAddForm
+from dolmen.forms.base import IAddForm
+from dolmen.forms.crud import FieldsCustomizer
 from dolmen.app.authentication import IUser, IPrincipal, IChangePassword
 
 _ = MessageFactory("dolmen")
