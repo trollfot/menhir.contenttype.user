@@ -24,6 +24,8 @@ setup(name='menhir.contenttype.user',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'dolmen.content',
+          'dolmen.app.authentication',
       ],
       entry_points="""
       # -*- Entry points: -*-
