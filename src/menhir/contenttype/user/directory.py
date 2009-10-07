@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
 
 import grok
-import dolmen.content as content
-from dolmen.app.authentication import IUserDirectory
-from zope.schema import ValidationError
+import dolmen.content
 from zope.app.container.interfaces import INameChooser
+from dolmen.app.authentication import IUserDirectory, UserRegistrationError
 
 
-class DuplicatedLogin(ValidationError):
-    __doc__ = u"This username is already in use."
+class DuplicatedLogin(UserRegistrationError):
+    __doc__ = u"This user identifier is already in use."
     
 
-class Directory(content.Container):
+class Directory(dolmen.content.Container):
     grok.implements(IUserDirectory)
-    content.icon("directory.png")
-    content.name("User directory")
-    content.schema(content.IBaseContent)
-    content.require('dolmen.security.ManageUsers')
+    dolmen.content.icon("directory.png")
+    dolmen.content.name("User directory")
+    dolmen.content.schema(dolmen.content.IBaseContent)
+    dolmen.content.require('dolmen.security.ManageUsers')
 
     def getIdByLogin(self, login):
         if login in self.keys():

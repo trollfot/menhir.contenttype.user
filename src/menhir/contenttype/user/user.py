@@ -5,6 +5,7 @@ import dolmen.content
 
 from zope.interface import Interface
 from zope.component import getUtility
+from zope.annotation.attribute import AttributeAnnotations
 from zope.app.authentication.interfaces import IPasswordManager
 
 from dolmen.blob import BlobProperty
@@ -63,3 +64,9 @@ class UserView(layout.Index):
         if self.context.portrait is not None:
             self.thumbnail = "%s/++thumbnail++portrait.thumb" % url
             self.popup_url = "%s/++thumbnail++portrait.large" % url       
+
+
+class UserAnnotations(AttributeAnnotations, grok.Adapter):
+    """Defines the annotations used on a user. This overrides the
+    use of zope.app.principalannotations.
+    """
