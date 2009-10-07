@@ -6,10 +6,9 @@ from zope.event import notify
 from zope.component import getUtility
 from zope.lifecycleevent import ObjectCreatedEvent
 
-from z3c.form import validator
 from dolmen.app.layout import models as layout
 from dolmen.app.authentication.interfaces import *
-from dolmen.forms.base import button, Fields, apply_data_event
+from dolmen.forms.base import button, validator, Fields, apply_data_event
 from menhir.contenttype.user import DuplicatedLogin, IPortrait, mf as _
 
 
