@@ -1,23 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import grok
-import dolmen.content as content
+import dolmen.content
 
-from z3c.form import button, field
 from zope.interface import Interface
 from zope.component import getUtility
-from zope.i18nmessageid import MessageFactory
-from zope.traversing.browser import absoluteURL
 from zope.app.authentication.interfaces import IPasswordManager
 
 from dolmen.blob import BlobProperty
 from dolmen.imaging import ImageField
 from dolmen.app.layout import models as layout
-from dolmen.forms.base import IAddForm
-from dolmen.forms.crud import FieldsCustomizer
-from dolmen.app.authentication import IUser, IPrincipal, IChangePassword
-
-_ = MessageFactory("dolmen")
+from dolmen.app.authentication import IUser, IPasswordChecker
+from menhir.contenttype.user import mf as _
 
 
 class IPortrait(Interface):
@@ -26,19 +20,25 @@ class IPortrait(Interface):
         required = False,
         default = None
         )
- 
 
-class User(content.Container):
-    content.icon('user.png')
-    content.name('User')
-    content.schema(IUser, IPortrait)
-    content.require('dolmen.security.AddUsers')
+
+class UserFactory(dolmen.content.Factory):
+    grok.name('menhir.user')
+    addform = "useradd"
+
+
+class User(dolmen.content.Container):
+    dolmen.content.name('User')
+    dolmen.content.icon('user.png')
+    dolmen.content.schema(IUser, IPortrait)
+    dolmen.content.require('dolmen.security.AddUsers')
+    grok.implements(IPasswordChecker)
 
     relations = None
     portrait = BlobProperty(IPortrait['portrait'])
 
     def __init__(self):
-        content.Container.__init__(self)
+        dolmen.content.Container.__init__(self)
         self._password = u""
         
     def get_password(self):
@@ -57,43 +57,9 @@ class User(content.Container):
 
 class UserView(layout.Index):
     grok.name('index')
-    grok.context(IUser)
 
     def update(self):
-        url = absoluteURL(self.context, self.request)
+        url = self.url(self.context)
         if self.context.portrait is not None:
             self.thumbnail = "%s/++thumbnail++portrait.thumb" % url
             self.popup_url = "%s/++thumbnail++portrait.large" % url       
-
-
-class UserAddFields(FieldsCustomizer):
-    grok.context(IUser)
-    grok.adapts(IUser, IAddForm, Interface)
-
-    def __call__(self, fields):
-        return fields.omit('description')
-
-
-class UserEdit(layout.Edit):
-    grok.name('edit')
-    grok.context(IUser)
-    fields = field.Fields(IPrincipal, IPortrait).omit('id', 'description')
-
-
-class UserPassword(layout.Form, layout.TabView):
-    grok.name('change_passwd')
-    grok.title("Change password")
-    grok.context(IUser)
-    grok.require("dolmen.content.Edit")
-    fields = field.Fields(IChangePassword)
-
-    form_name = _('Change password')
-
-    @button.buttonAndHandler(_('Change password'))
-    def handleSave(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-        self.context.password = data['password']
-        self.redirect(self.url(self.context))

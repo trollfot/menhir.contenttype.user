@@ -3,12 +3,16 @@
 import grok
 import dolmen.content as content
 from dolmen.app.authentication import IUserDirectory
-from zope.interface import implements
+from zope.schema import ValidationError
 from zope.app.container.interfaces import INameChooser
 
 
+class DuplicatedLogin(ValidationError):
+    __doc__ = u"This username is already in use."
+    
+
 class Directory(content.Container):
-    implements(IUserDirectory)
+    grok.implements(IUserDirectory)
     content.icon("directory.png")
     content.name("User directory")
     content.schema(content.IBaseContent)
