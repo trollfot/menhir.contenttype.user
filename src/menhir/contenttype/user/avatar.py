@@ -3,7 +3,7 @@
 import os.path
 import grokcore.component as grok
 
-from dolmen.imaging import IImageMiniaturizer
+from dolmen.thumbnailer import IImageMiniaturizer
 from dolmen.app.authentication import IUserDirectory
 
 from zope.interface import Interface
