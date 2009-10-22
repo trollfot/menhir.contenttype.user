@@ -8,8 +8,8 @@ from zope.component import getUtility
 from zope.annotation.attribute import AttributeAnnotations
 from zope.app.authentication.interfaces import IPasswordManager
 
+from dolmen.file import ImageField
 from dolmen.blob import BlobProperty
-from dolmen.imaging import ImageField
 from dolmen.app.layout import models as layout
 from dolmen.app.authentication import IUser, IPasswordChecker
 from menhir.contenttype.user import mf as _
