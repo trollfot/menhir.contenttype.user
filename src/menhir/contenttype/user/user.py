@@ -25,7 +25,7 @@ class IPortrait(Interface):
 
 class UserFactory(dolmen.content.Factory):
     grok.name('menhir.user')
-    addform = "useradd"
+    addform = u"useradd"
 
 
 class User(dolmen.content.Container):
