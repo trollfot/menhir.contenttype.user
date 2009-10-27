@@ -8,7 +8,8 @@ from zope.lifecycleevent import ObjectCreatedEvent
 
 from dolmen.app.layout import models as layout
 from dolmen.app.authentication.interfaces import *
-from dolmen.forms.base import button, validator, Fields, apply_data_event
+from dolmen.forms.crud import utils
+from dolmen.forms.base import button, validator, Fields
 from menhir.contenttype.user import DuplicatedLogin, IPortrait, mf as _
 
 
@@ -16,16 +17,17 @@ class UserAdd(layout.Add):
     grok.name("useradd")
     grok.require('dolmen.security.AddUsers')
 
+    ignoreContext = True
+
     user_fields = Fields(IUser, IPortrait)
     fields = (user_fields.omit('password') + Fields(IChangePassword)).select(
         'id', 'title', 'email', 'portrait', 'password', 'verify_pass'
         )
 
     def create(self, data):
-        user = self.factory() # generates the user
-        notify(ObjectCreatedEvent(user))
-        changes = apply_data_event(self.user_fields, user, data)
-        return user
+        obj = self.context.factory()
+        utils.notify_object_creation(self.user_fields, obj, data)
+        return obj
 
 
 class LoginValidator(validator.SimpleFieldValidator, grok.MultiAdapter):
