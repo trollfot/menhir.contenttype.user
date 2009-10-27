@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import grok
-from zope.app.component.hooks import getSite
-from dolmen.app.authentication import IUser, IUserDirectory
-from dolmen.app.site.interfaces import IDolmen
-from zope.securitypolicy import interfaces as security
+
 from zope.component import getSiteManager
+from zope.app.component.hooks import getSite
+from zope.securitypolicy import interfaces as security
+
+from dolmen.app.site import IDolmen
+from dolmen.app.authentication import IUser, IUserDirectory
 
 
 @grok.subscribe(IUser, grok.IObjectAddedEvent)
