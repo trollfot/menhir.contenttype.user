@@ -6,7 +6,7 @@ from zope.event import notify
 from zope.component import getUtility
 from zope.lifecycleevent import ObjectCreatedEvent
 
-from dolmen.app.layout import models as layout
+import dolmen.app.layout as layout
 from dolmen.app.authentication.interfaces import *
 from dolmen.forms.crud import utils
 from dolmen.forms.base import button, validator, Fields
@@ -48,7 +48,7 @@ class UserEdit(layout.Edit):
         )
 
 
-class UserPassword(layout.Form, layout.TabView):
+class UserPassword(layout.Form, layout.ContextualMenuEntry):
     grok.context(IUser)
     grok.name('change_passwd')
     grok.title("Change password")
