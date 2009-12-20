@@ -2,8 +2,8 @@
 
 import grok
 
+from zope.site.hooks import getSite
 from zope.component import getSiteManager
-from zope.app.component.hooks import getSite
 from zope.securitypolicy import interfaces as security
 
 from dolmen.app.site import IDolmen
