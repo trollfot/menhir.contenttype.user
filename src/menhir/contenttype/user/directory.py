@@ -2,28 +2,15 @@
 
 import grok
 import dolmen.content
-from zope.app.container.interfaces import INameChooser
-from dolmen.app.authentication import IUserDirectory, UserRegistrationError
+from zope.container.interfaces import INameChooser
+from zope.exceptions.interfaces import UserError
+from dolmen.app.authentication.plugins import PrincipalFolderPlugin
 
 
-class DuplicatedLogin(UserRegistrationError):
-    __doc__ = u"This user identifier is already in use."
-    
-
-class Directory(dolmen.content.Container):
-    grok.implements(IUserDirectory)
+class Directory(PrincipalFolderPlugin):
     dolmen.content.icon("directory.png")
     dolmen.content.name("User directory")
-    dolmen.content.schema(dolmen.content.IBaseContent)
     dolmen.content.require('dolmen.security.ManageUsers')
-
-    def getIdByLogin(self, login):
-        if login in self.keys():
-            return login
-        return None
-
-    def getUserByLogin(self, login):
-        return self.get(login)
 
 
 class UserNameChooser(grok.Adapter):
@@ -31,6 +18,7 @@ class UserNameChooser(grok.Adapter):
     grok.implements(INameChooser)
 
     def checkName(self, name, object):
+        # here, raise UserError on some tests.
         return not name in self.context
 
     def chooseName(self, name, object):

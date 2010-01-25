@@ -4,7 +4,7 @@ import os.path
 import grokcore.component as grok
 
 from dolmen.thumbnailer import IImageMiniaturizer
-from dolmen.app.authentication import IUserDirectory
+from dolmen.authentication import IPrincipalFolder
 
 from zope.interface import Interface
 from zope.traversing.interfaces import ITraversable

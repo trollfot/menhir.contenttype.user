@@ -6,16 +6,16 @@ import dolmen.content
 from zope.interface import Interface
 from zope.component import getUtility
 from zope.annotation.attribute import AttributeAnnotations
-from zope.app.authentication.interfaces import IPasswordManager
+from zope.password.interfaces import IPasswordManager
 
 from dolmen.file import ImageField
 from dolmen.blob import BlobProperty
-from dolmen.app.layout import models as layout
-from dolmen.app.authentication import IUser, IPasswordChecker
-from menhir.contenttype.user import mf as _
+from dolmen.authentication import IPasswordChecker
+from dolmen.app.authentication import IUser as IBaseUser
+from menhir.contenttype.user import MF as _
 
 
-class IPortrait(Interface):
+class IUser(IBaseUser):
     portrait = ImageField(
         title = _(u"Portrait"),
         required = False,
@@ -29,41 +29,33 @@ class UserFactory(dolmen.content.Factory):
 
 
 class User(dolmen.content.Container):
-    dolmen.content.name('User')
     dolmen.content.icon('user.png')
-    dolmen.content.schema(IUser, IPortrait)
+    dolmen.content.name(_('User'))
     dolmen.content.require('dolmen.security.AddUsers')
+    dolmen.content.schema(IUser)
     grok.implements(IPasswordChecker)
 
     relations = None
-    portrait = BlobProperty(IPortrait['portrait'])
+    portrait = BlobProperty(IUser['portrait'])
 
     def __init__(self):
         dolmen.content.Container.__init__(self)
         self._password = u""
-        
-    def get_password(self):
-        return self._password
-        
-    def set_password(self, password):
-        passwordmanager = getUtility(IPasswordManager, 'SHA1')
-        self._password = passwordmanager.encodePassword(password)
 
-    password = property(get_password, set_password)
+    @apply
+    def password():
+        """A setter and a getter using password managers.
+        """
+        def get(self):
+            return self._password
+        
+        def set(self, password):
+            passwordmanager = getUtility(IPasswordManager, 'SHA1')
+            self._password = passwordmanager.encodePassword(password)
 
     def checkPassword(self, password):
         passwordmanager = getUtility(IPasswordManager, 'SHA1')
         return passwordmanager.checkPassword(self.password, password)
-
-
-class UserView(layout.Index):
-    grok.name('index')
-
-    def update(self):
-        url = self.url(self.context)
-        if self.context.portrait is not None:
-            self.thumbnail = "%s/++thumbnail++portrait.thumb" % url
-            self.popup_url = "%s/++thumbnail++portrait.large" % url       
 
 
 class UserAnnotations(AttributeAnnotations, grok.Adapter):

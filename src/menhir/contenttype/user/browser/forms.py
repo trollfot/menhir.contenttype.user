@@ -1,16 +1,19 @@
 ## -*- coding: utf-8 -*-
 
 import grokcore.view as grok
-
-from zope.event import notify
-from zope.component import getUtility
-from zope.lifecycleevent import ObjectCreatedEvent
-
 import dolmen.app.layout as layout
-from dolmen.app.authentication.interfaces import *
-from dolmen.forms.crud import utils
+from dolmen.app.authentication.interfaces import IChangePassword
 from dolmen.forms.base import button, validator, Fields
-from menhir.contenttype.user import DuplicatedLogin, IPortrait, mf as _
+from dolmen.forms.crud import utils
+from menhir.contenttype.user import IUser, MF as _
+from zope.formlib.interfaces import IWidgetInputError
+from zope.interface import implements
+from zope.schema import ValidationError
+
+
+class DuplicatedLogin(ValidationError):
+    implements(IWidgetInputError)
+    __doc__ = _(u"This user identifier is already in use.")
 
 
 class UserAdd(layout.Add):
@@ -19,7 +22,7 @@ class UserAdd(layout.Add):
 
     ignoreContext = True
 
-    user_fields = Fields(IUser, IPortrait)
+    user_fields = Fields(IUser)
     fields = (user_fields.omit('password') + Fields(IChangePassword)).select(
         'id', 'title', 'email', 'portrait', 'password', 'verify_pass'
         )
@@ -35,15 +38,14 @@ class LoginValidator(validator.SimpleFieldValidator, grok.MultiAdapter):
 
     def validate(self, value):
         super(LoginValidator, self).validate(value)
-        users = getUtility(IUserDirectory)
-        if users.getIdByLogin(value) is not None:
+        if self.context.hasPrincipal(value) is True:
             raise DuplicatedLogin(value)
 
 
 class UserEdit(layout.Edit):
     grok.name('edit')
     grok.context(IUser)
-    fields = Fields(IPrincipal, IPortrait).select(
+    fields = Fields(IUser).select(
         'title', 'email', 'portrait'
         )
 

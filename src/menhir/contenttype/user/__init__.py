@@ -1,7 +1,8 @@
 from zope.i18nmessageid import MessageFactory
-mf = MessageFactory("dolmen")
+MF = MessageFactory("dolmen")
 del MessageFactory
 
-from menhir.contenttype.user.user import IPortrait, User, UserView
-from menhir.contenttype.user.directory import Directory, DuplicatedLogin
-from menhir.contenttype.user.forms import UserAdd, UserEdit, UserPassword
+from menhir.contenttype.user.user import IUser, User
+from menhir.contenttype.user.directory import Directory
+from menhir.contenttype.user.browser.forms import (
+    UserAdd, UserEdit, UserPassword)
