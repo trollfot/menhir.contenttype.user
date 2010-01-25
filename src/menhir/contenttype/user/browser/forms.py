@@ -33,14 +33,6 @@ class UserAdd(layout.Add):
         return obj
 
 
-class LoginValidator(validator.SimpleFieldValidator, grok.MultiAdapter):
-    grok.adapts(None, None, UserAdd, IUser['id'].__class__, None)
-
-    def validate(self, value):
-        super(LoginValidator, self).validate(value)
-        if self.context.hasPrincipal(value) is True:
-            raise DuplicatedLogin(value)
-
 
 class UserEdit(layout.Edit):
     grok.name('edit')
