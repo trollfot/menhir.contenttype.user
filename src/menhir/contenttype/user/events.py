@@ -7,8 +7,7 @@ from zope.component import getSiteManager
 from zope.securitypolicy import interfaces as security
 
 from dolmen.app.site import IDolmen
-from dolmen.authentication import IPrincipalFolder
-from menhir.contenttype.user import IUser
+from menhir.contenttype.user import IUser, IDirectory
 
 
 @grok.subscribe(IUser, grok.IObjectAddedEvent)
@@ -20,9 +19,12 @@ def grant_permissions(ob, event):
     prinrole.assignRoleToPrincipal('dolmen.Member', ob.id)
 
 
-@grok.subscribe(IPrincipalFolder, grok.IObjectAddedEvent)
+@grok.subscribe(IDirectory, grok.IObjectAddedEvent)
 def UserFolderInitiation(ob, event):
     """We grant the right to register to an anonymous user.
     """
     rpm = security.IPrincipalPermissionManager(ob)
     rpm.grantPermissionToPrincipal('dolmen.security.AddUsers', 'zope.anybody')
+    
+    sitemanager = getSiteManager()
+    sitemanager.registerUtility(ob, IDirectory, name=ob.__name__, info=u'')

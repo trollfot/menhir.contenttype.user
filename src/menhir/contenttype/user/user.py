@@ -35,23 +35,20 @@ class User(dolmen.content.Container):
     dolmen.content.schema(IUser)
     grok.implements(IPasswordChecker)
 
-    relations = None
     portrait = BlobProperty(IUser['portrait'])
 
     def __init__(self):
         dolmen.content.Container.__init__(self)
         self._password = u""
 
-    @apply
-    def password():
-        """A setter and a getter using password managers.
-        """
-        def get(self):
-            return self._password
-        
-        def set(self, password):
-            passwordmanager = getUtility(IPasswordManager, 'SHA1')
-            self._password = passwordmanager.encodePassword(password)
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        passwordmanager = getUtility(IPasswordManager, 'SHA1')
+        self._password = passwordmanager.encodePassword(password)
 
     def checkPassword(self, password):
         passwordmanager = getUtility(IPasswordManager, 'SHA1')

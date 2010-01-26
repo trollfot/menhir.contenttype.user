@@ -2,16 +2,23 @@
 
 import grok
 import dolmen.content
+from dolmen.app.authentication.plugins import PrincipalFolderPlugin
 from zope.container.interfaces import INameChooser
 from zope.exceptions.interfaces import UserError
-from dolmen.app.authentication.plugins import PrincipalFolderPlugin
+from zope.pluggableauth.interfaces import IAuthenticatorPlugin
+
+
+class IDirectory(IAuthenticatorPlugin):
+    """Marker interface.
+    """
 
 
 class Directory(PrincipalFolderPlugin):
     dolmen.content.icon("directory.png")
     dolmen.content.name("User directory")
     dolmen.content.require('dolmen.security.ManageUsers')
-
+    grok.implements(IDirectory)
+    
 
 class UserNameChooser(grok.Adapter):
     grok.context(Directory)
