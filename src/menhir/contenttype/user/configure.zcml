@@ -2,6 +2,7 @@
            xmlns:grok="http://namespaces.zope.org/grok">
 
   <include package="dolmen.content" file="meta.zcml"/>
+  <include package="dolmen.menu" />
   <grok:grok package="." />
 
 </configure>

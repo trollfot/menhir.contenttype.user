@@ -14,7 +14,7 @@ class IDirectory(IAuthenticatorPlugin):
 
 
 class Directory(PrincipalFolderPlugin):
-    dolmen.content.icon("directory.png")
+    #dolmen.content.icon("directory.png")
     dolmen.content.name("User directory")
     dolmen.content.require('dolmen.security.ManageUsers')
     grok.implements(IDirectory)

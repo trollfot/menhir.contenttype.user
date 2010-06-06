@@ -11,6 +11,7 @@ from zope.password.interfaces import IPasswordManager
 from dolmen.file import ImageField
 from dolmen.blob import BlobProperty
 from dolmen.authentication import IPasswordChecker
+from dolmen.app.content import icon
 from dolmen.app.authentication import IUser as IBaseUser
 from menhir.contenttype.user import MF as _
 
@@ -19,8 +20,7 @@ class IUser(IBaseUser):
     portrait = ImageField(
         title = _(u"Portrait"),
         required = False,
-        default = None
-        )
+        default = None)
 
 
 class UserFactory(dolmen.content.Factory):
@@ -29,7 +29,7 @@ class UserFactory(dolmen.content.Factory):
 
 
 class User(dolmen.content.Container):
-    dolmen.content.icon('user.png')
+    icon('user.png')
     dolmen.content.name(_('User'))
     dolmen.content.require('dolmen.security.AddUsers')
     dolmen.content.schema(IUser)
@@ -41,14 +41,19 @@ class User(dolmen.content.Container):
         dolmen.content.Container.__init__(self)
         self._password = u""
 
-    @property
-    def password(self):
-        return self._password
+    @apply
+    def password():
+        """A password read/write property,
+        handling the password manager.
+        """
+        def fget(self):
+            return self._password
 
-    @password.setter
-    def password(self, password):
-        passwordmanager = getUtility(IPasswordManager, 'SHA1')
-        self._password = passwordmanager.encodePassword(password)
+        def fset(self, password):
+            passwordmanager = getUtility(IPasswordManager, 'SHA1')
+            self._password = passwordmanager.encodePassword(password)
+
+        return property(fget, fset)
 
     def checkPassword(self, password):
         passwordmanager = getUtility(IPasswordManager, 'SHA1')

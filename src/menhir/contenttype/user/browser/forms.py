@@ -2,10 +2,14 @@
 
 import grokcore.view as grok
 import dolmen.app.layout as layout
+
+from dolmen import menu
 from dolmen.app.authentication.interfaces import IChangePassword
-from dolmen.forms.base import button, validator, Fields
 from dolmen.forms.crud import utils
+from dolmen.forms.base import Fields
+from zeam.form.ztk import action
 from menhir.contenttype.user import IUser, MF as _
+
 from zope.formlib.interfaces import IWidgetInputError
 from zope.interface import implements
 from zope.schema import ValidationError
@@ -42,7 +46,8 @@ class UserEdit(layout.Edit):
         )
 
 
-class UserPassword(layout.Form, layout.ContextualMenuEntry):
+@menu.menuentry(layout.ContextualMenu)
+class UserPassword(layout.Form):
     grok.context(IUser)
     grok.name('change_passwd')
     grok.title("Change password")
@@ -51,7 +56,7 @@ class UserPassword(layout.Form, layout.ContextualMenuEntry):
     fields = Fields(IChangePassword)
     form_name = _('Change password')
 
-    @button.buttonAndHandler(_('Change password'))
+    @action(_('Change password'))
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
