@@ -10,11 +10,10 @@ from zope.interface import Interface
 from zope.traversing.interfaces import ITraversable
 from zope.component import getUtility, getMultiAdapter
 from zope.publisher.interfaces.http import IHTTPRequest
-from zope.browserresource.fileresource import Image
-from zope.browserresource.browser.fileresource import FileResource
+from zope.browserresource.file import File, FileResource
 
 PATH = os.path.dirname(os.path.abspath(__file__))
-BASE_AVATAR = Image(os.path.join(PATH, 'unknown.gif'), 'unknown.gif')
+BASE_AVATAR = File(os.path.join(PATH, 'unknown.gif'), 'unknown.gif')
 
 
 class AvatarRetriever(grok.MultiAdapter):
