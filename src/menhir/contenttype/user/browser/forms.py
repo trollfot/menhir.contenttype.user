@@ -28,8 +28,7 @@ class UserAdd(layout.Add):
 
     user_fields = Fields(IUser)
     fields = (user_fields.omit('password') + Fields(IChangePassword)).select(
-        'id', 'title', 'email', 'portrait', 'password', 'verify_pass'
-        )
+        'id', 'title', 'email', 'portrait', 'password', 'verify_pass')
 
     def create(self, data):
         obj = self.context.factory()
@@ -37,20 +36,18 @@ class UserAdd(layout.Add):
         return obj
 
 
-
 class UserEdit(layout.Edit):
     grok.name('edit')
     grok.context(IUser)
     fields = Fields(IUser).select(
-        'title', 'email', 'portrait'
-        )
+        'title', 'email', 'portrait')
 
 
 @menu.menuentry(layout.ContextualMenu)
 class UserPassword(layout.Form):
     grok.context(IUser)
     grok.name('change_passwd')
-    grok.title("Change password")
+    grok.title(_("Change password"))
     grok.require("dolmen.content.Edit")
     
     fields = Fields(IChangePassword)
