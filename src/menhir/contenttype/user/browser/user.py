@@ -13,4 +13,4 @@ class UserView(layout.Index):
         url = self.url(self.context)
         if self.context.portrait is not None:
             self.thumbnail = "%s/++thumbnail++portrait.thumb" % url
-            self.popup_url = "%s/++thumbnail++portrait.large" % url   
+            self.popup_url = "%s/++thumbnail++portrait.large" % url

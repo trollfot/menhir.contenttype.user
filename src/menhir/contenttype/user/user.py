@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import grokcore.component as grok
-import dolmen.content
 
-from zope.interface import Interface
 from zope.component import getUtility
 from zope.annotation.attribute import AttributeAnnotations
 from zope.password.interfaces import IPasswordManager
 
-from dolmen.file import ImageField
-from dolmen.blob import BlobProperty
-from dolmen.authentication import IPasswordChecker
-from dolmen.app.content import icon
 from dolmen.app.authentication import IUser as IBaseUser
+from dolmen.app.content import icon
+from dolmen.authentication import IPasswordChecker
+from dolmen.blob import BlobProperty
+import dolmen.content
+from dolmen.file import ImageField
 from menhir.contenttype.user import MF as _
 
 
 class IUser(IBaseUser):
     portrait = ImageField(
-        title = _(u"Portrait"),
-        required = False,
-        default = None)
+        title=_(u"Portrait"),
+        required=False,
+        default=None)
 
 
 class UserFactory(dolmen.content.Factory):

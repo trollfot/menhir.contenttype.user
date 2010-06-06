@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import grokcore.component as grok
-from menhir.contenttype.user import IUser
-from zope.security.interfaces import IGroupClosureAwarePrincipal as IPrincipal
+
+from zope.authentication.interfaces import IAuthentication
+from zope.component import getUtility
+from zope.event import notify
+from zope.location.interfaces import ILocation
 from zope.pluggableauth.interfaces import (
     AuthenticatedPrincipalCreated, IAuthenticatedPrincipalFactory)
 from zope.publisher.interfaces import IRequest
-from zope.traversing.browser.absoluteurl import absoluteURL
-from zope.location.interfaces import ILocation
-from zope.event import notify
+from zope.security.interfaces import IGroupClosureAwarePrincipal as IPrincipal
 
 
 class LocatablePrincipal(object):
@@ -19,7 +22,7 @@ class LocatablePrincipal(object):
         self.groups = ["zope.Authenticated", "zope.Everybody"]
         self.__name__ = info.__name__
         self.__parent__ = info.__parent__
-        
+
     def __repr__(self):
         return 'Principal(%r)' % self.id
 
@@ -29,7 +32,7 @@ class LocatablePrincipal(object):
         """
         if self.groups:
             seen = set()
-            principals = component.getUtility(IAuthentication)
+            principals = getUtility(IAuthentication)
             stack = [iter(self.groups)]
             while stack:
                 try:

@@ -49,7 +49,7 @@ class UserPassword(layout.Form):
     grok.name('change_passwd')
     grok.title(_("Change password"))
     grok.require("dolmen.content.Edit")
-    
+
     fields = Fields(IChangePassword)
     form_name = _('Change password')
 
