@@ -1,4 +1,4 @@
-import grok
+import grok.component as grok
 from menhir.contenttype.user import IUser
 from zope.security.interfaces import IGroupClosureAwarePrincipal as IPrincipal
 from zope.pluggableauth.interfaces import (

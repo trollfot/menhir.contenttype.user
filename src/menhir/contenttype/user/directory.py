@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import grok
+import grokcore.component as grok
 import dolmen.content
 from dolmen.app.authentication.plugins import PrincipalFolderPlugin
 from zope.container.interfaces import INameChooser

@@ -10,8 +10,8 @@ from zope.interface import Interface
 from zope.traversing.interfaces import ITraversable
 from zope.component import getUtility, getMultiAdapter
 from zope.publisher.interfaces.http import IHTTPRequest
-from zope.app.publisher.fileresource import Image
-from zope.app.publisher.browser.fileresource import FileResource
+from zope.browserresource.fileresource import Image
+from zope.browserresource.browser.fileresource import FileResource
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 BASE_AVATAR = Image(os.path.join(PATH, 'unknown.gif'), 'unknown.gif')

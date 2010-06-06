@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import grok
+import grokcore.component as grok
 import dolmen.content
 
 from zope.interface import Interface
