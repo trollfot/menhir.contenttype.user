@@ -1,8 +1,20 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:grok="http://namespaces.zope.org/grok">
 
+  <include package="grokcore.component" file="meta.zcml"/>
   <include package="dolmen.content" file="meta.zcml"/>
+
   <include package="dolmen.menu" />
+  <include package="dolmen.file" />
+  <include package="dolmen.blob" />
+  <include package="dolmen.thumbnailer" />
+  <include package="dolmen.app.content" />
+  <include package="dolmen.app.layout" />
+  <include package="dolmen.widget.file" />
+  <include package="dolmen.widget.image" />
+  <include package="zeam.form.ztk" />
+  <include package="zope.password" />
+
   <grok:grok package="." />
 
 </configure>

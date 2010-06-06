@@ -19,8 +19,7 @@ from menhir.contenttype.user import MF as _
 class IUser(IBaseUser):
     portrait = ImageField(
         title = _(u"Portrait"),
-        required = False,
-        default = None)
+        required = False)
 
 
 class UserFactory(dolmen.content.Factory):
@@ -37,8 +36,8 @@ class User(dolmen.content.Container):
 
     portrait = BlobProperty(IUser['portrait'])
 
-    def __init__(self):
-        dolmen.content.Container.__init__(self)
+    def __init__(self, *args, **kwargs):
+        dolmen.content.Container.__init__(self, *args, **kwargs)
         self._password = u""
 
     @apply

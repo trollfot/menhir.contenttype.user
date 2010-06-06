@@ -24,40 +24,28 @@ class UserAdd(layout.Add):
     grok.name("useradd")
     grok.require('dolmen.security.AddUsers')
 
-    ignoreContext = True
-
-    user_fields = Fields(IUser)
-    fields = (user_fields.omit('password') + Fields(IChangePassword)).select(
+    fields = (Fields(IUser).omit('password') + Fields(IChangePassword)).select(
         'id', 'title', 'email', 'portrait', 'password', 'verify_pass')
 
-    def create(self, data):
-        obj = self.context.factory()
-        utils.notify_object_creation(self.user_fields, obj, data)
-        return obj
-
-
-class UserEdit(layout.Edit):
-    grok.name('edit')
-    grok.context(IUser)
-    fields = Fields(IUser).select(
-        'title', 'email', 'portrait')
+    def update(self):
+        layout.Add.update(self)
+        #import pdb
+        #pdb.set_trace()
 
 
 @menu.menuentry(layout.ContextualMenu)
-class UserPassword(layout.Form):
+class UserEdit(layout.Edit):
+    grok.name('edit')
+    grok.context(IUser)
+    fields = Fields(IUser).select('title', 'email', 'portrait')
+
+
+@menu.menuentry(layout.ContextualMenu)
+class UserPassword(layout.Edit):
     grok.context(IUser)
     grok.name('change_passwd')
     grok.title(_("Change password"))
     grok.require("dolmen.content.Edit")
     
     fields = Fields(IChangePassword)
-    form_name = _('Change password')
-
-    @action(_('Change password'))
-    def handleSave(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-        self.context.password = data['password']
-        self.redirect(self.url(self.context))
+    label = _('Change password')
