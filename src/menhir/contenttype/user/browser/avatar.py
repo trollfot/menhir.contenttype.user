@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import os.path
+
 import grokcore.component as grok
 
-from dolmen.thumbnailer import IImageMiniaturizer
-from dolmen.authentication import IPrincipalFolder
-
-from zope.interface import Interface
-from zope.traversing.interfaces import ITraversable
-from zope.component import getUtility, getMultiAdapter
-from zope.publisher.interfaces.http import IHTTPRequest
 from zope.browserresource.file import File, FileResource
+from zope.component import getUtility, getMultiAdapter
+from zope.interface import Interface
+from zope.publisher.interfaces.http import IHTTPRequest
+from zope.traversing.interfaces import ITraversable
+
+from dolmen.app.authentication.interfaces import IUserDirectory
+from dolmen.thumbnailer import IImageMiniaturizer
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 BASE_AVATAR = File(os.path.join(PATH, 'unknown.gif'), 'unknown.gif')
@@ -33,7 +34,7 @@ class AvatarRetriever(grok.MultiAdapter):
             thumb = thumbs.retrieve('square', fieldname='portrait')
             if thumb is not None:
                 return getMultiAdapter((thumb, self.request),
-                                       name = "file_publish")
-        
+                                       name="file_publish")
+
         resource = FileResource(BASE_AVATAR, self.request)
         return resource

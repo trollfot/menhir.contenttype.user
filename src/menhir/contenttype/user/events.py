@@ -7,7 +7,6 @@ from zope.component.hooks import getSite
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.securitypolicy import interfaces as security
 
-from dolmen.app.site import IDolmen
 from menhir.contenttype.user import IUser, IDirectory
 
 
@@ -26,6 +25,6 @@ def UserFolderInitiation(ob, event):
     """
     rpm = security.IPrincipalPermissionManager(ob)
     rpm.grantPermissionToPrincipal('dolmen.security.AddUsers', 'zope.anybody')
-    
+
     sitemanager = getSiteManager()
     sitemanager.registerUtility(ob, IDirectory, name=ob.__name__, info=u'')

@@ -1,5 +1,5 @@
 from zope.i18nmessageid import MessageFactory
-MF = MessageFactory("dolmen")
+MF = MessageFactory("menhir.contenttype.user")
 del MessageFactory
 
 from menhir.contenttype.user.user import IUser, User
