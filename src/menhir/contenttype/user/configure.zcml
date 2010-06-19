@@ -3,7 +3,7 @@
 
   <include package="grokcore.component" file="meta.zcml"/>
   <include package="dolmen.content" file="meta.zcml"/>
-
+  <include package="zeam.form.ztk" />
   <include package="dolmen.menu" />
   <include package="dolmen.file" />
   <include package="dolmen.blob" />
@@ -12,7 +12,6 @@
   <include package="dolmen.app.layout" />
   <include package="dolmen.widget.file" />
   <include package="dolmen.widget.image" />
-  <include package="zeam.form.ztk" />
   <include package="zope.password" />
 
   <grok:grok package="." />

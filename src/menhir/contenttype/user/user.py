@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import grok
 import dolmen.content
-import grokcore.component as grok
 
 from zope.component import getUtility
 from zope.annotation.attribute import AttributeAnnotations
@@ -17,8 +17,8 @@ from menhir.contenttype.user import MF as _
 
 class IUser(IBaseUser):
     portrait = ImageField(
-        title = _(u"Portrait"),
-        required = False)
+        title=_(u"Portrait"),
+        required=False)
 
 
 class UserFactory(dolmen.content.Factory):
