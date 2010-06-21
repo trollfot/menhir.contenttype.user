@@ -1,4 +1,4 @@
-## -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import grokcore.view as grok
 import dolmen.app.layout as layout
@@ -18,8 +18,8 @@ class UserAdd(layout.Add):
     grok.require('dolmen.security.AddUsers')
 
     fields = (Fields(IUser).omit('password') + Fields(IChangePassword)
-              ).select('id', 'title', 'email', 'portrait',
-                       'password', 'verify_pass')
+              ).select('id', 'title', 'email','portrait', 'password',
+                       'verify_pass')
 
 
 @menu.menuentry(layout.ContextualMenu, order=20)
@@ -27,7 +27,8 @@ class UserEdit(layout.Edit):
     grok.name('edit')
     grok.context(IUser)
 
-    fields = Fields(IUser).select('title', 'email', 'portrait')
+    fields = Fields(IUser).select('id', 'title', 'email', 'portrait')
+    fields['id'].mode = 'display'
 
 
 @menu.menuentry(layout.ContextualMenu, order=25)

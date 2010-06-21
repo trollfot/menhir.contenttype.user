@@ -6,7 +6,6 @@ from dolmen import content
 from dolmen.app.content import icon
 from dolmen.app.authentication.plugins import PrincipalFolderPlugin
 from zope.container.interfaces import INameChooser
-from zope.pluggableauth.interfaces import IAuthenticatorPlugin
 
 
 class Directory(PrincipalFolderPlugin):

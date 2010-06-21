@@ -3,7 +3,7 @@
 import grokcore.component as grok
 
 from dolmen.authentication import IPrincipalFolder
-from menhir.contenttype.user import IUser, Directory
+from menhir.contenttype.user import IUser
 from zope.component import getSiteManager
 from zope.component.hooks import getSite
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
