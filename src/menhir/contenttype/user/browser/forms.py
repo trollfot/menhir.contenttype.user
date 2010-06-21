@@ -17,11 +17,9 @@ class UserAdd(layout.Add):
     grok.name("useradd")
     grok.require('dolmen.security.AddUsers')
 
-    @property
-    def fields(self):
-        return (Fields(IUser).omit('password')
-                + Fields(IChangePassword)).select(
-            'id', 'title', 'email', 'portrait', 'password', 'verify_pass')
+    fields = (Fields(IUser).omit('password') + Fields(IChangePassword)
+              ).select('id', 'title', 'email', 'portrait',
+                       'password', 'verify_pass')
 
 
 @menu.menuentry(layout.ContextualMenu, order=20)
@@ -29,9 +27,7 @@ class UserEdit(layout.Edit):
     grok.name('edit')
     grok.context(IUser)
 
-    @property
-    def fields(self):
-        return Fields(IUser).select('title', 'email', 'portrait')
+    fields = Fields(IUser).select('title', 'email', 'portrait')
 
 
 @menu.menuentry(layout.ContextualMenu, order=25)
