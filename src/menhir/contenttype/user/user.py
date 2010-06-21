@@ -3,16 +3,15 @@
 import grok
 import dolmen.content
 
-from zope.component import getUtility
-from zope.annotation.attribute import AttributeAnnotations
-from zope.password.interfaces import IPasswordManager
-
 from dolmen.app.authentication import IUser as IBaseUser
 from dolmen.app.content import icon
 from dolmen.authentication import IPasswordChecker
 from dolmen.blob import BlobProperty
 from dolmen.file import ImageField
 from menhir.contenttype.user import MF as _
+from zope.annotation.attribute import AttributeAnnotations
+from zope.component import getUtility
+from zope.password.interfaces import IPasswordManager
 
 
 class IUser(IBaseUser):
