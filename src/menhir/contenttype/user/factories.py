@@ -24,7 +24,7 @@ class LocatablePrincipal(object):
         self.__parent__ = info.__parent__
 
     def __repr__(self):
-        return 'Principal(%r)' % self.id
+        return 'LocatablePrincipal(%r)' % self.id
 
     @property
     def allGroups(self):
