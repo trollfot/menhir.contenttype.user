@@ -10,10 +10,15 @@ from zope.pluggableauth.interfaces import (
     AuthenticatedPrincipalCreated, IAuthenticatedPrincipalFactory)
 from zope.pluggableauth.factories import Principal
 from zope.publisher.interfaces import IRequest
+from zope.security.interfaces import IGroupClosureAwarePrincipal as IPrincipal
+
+
+class ILocatablePrincipal(IPrincipal, ILocation):
+    pass
 
 
 class LocatablePrincipal(Principal):
-    grok.implements(ILocation)
+    grok.implements(ILocatablePrincipal)
 
     def __init__(self, info):
         self.id = info.id
