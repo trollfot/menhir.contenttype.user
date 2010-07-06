@@ -9,6 +9,7 @@ from dolmen.forms.base import Fields
 from dolmen.forms.crud import utils
 from menhir.contenttype.user import IUser, MF as _
 from zeam.form.ztk import action
+from zeam.form.base.markers import DISPLAY
 from zope.interface import implements
 from zope.schema import ValidationError
 
@@ -28,7 +29,7 @@ class UserEdit(layout.Edit):
     grok.context(IUser)
 
     fields = Fields(IUser).select('id', 'title', 'email', 'portrait')
-    fields['id'].mode = 'display'
+    fields['id'].mode = DISPLAY # Will not be extracted, just displayed.
 
 
 @menu.menuentry(layout.ContextualMenu, order=25)

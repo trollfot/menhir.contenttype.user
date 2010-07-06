@@ -32,6 +32,13 @@ class User(dolmen.content.Container):
     dolmen.content.schema(IUser)
     grok.implements(IPasswordChecker)
 
+    # We avoid the FieldProperties for these attributes.
+    # They are 'required' and therefore cause an exception
+    # on the deletion process, when set to None.
+    __name__ = None
+    __parent__ = None
+
+    # We store the portrait in a blob.
     portrait = BlobProperty(IUser['portrait'])
 
     def __init__(self, *args, **kwargs):
