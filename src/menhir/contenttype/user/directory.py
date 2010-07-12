@@ -6,11 +6,11 @@ from dolmen import content
 from dolmen.app.content import icon
 from dolmen.app.authentication.plugins import PrincipalFolderPlugin
 from zope.container.interfaces import INameChooser
-
+from menhir.contenttype.user import MF as _
 
 class Directory(PrincipalFolderPlugin):
     icon("directory.png")
-    content.name("User directory")
+    content.name(_("User directory"))
     content.require('dolmen.security.ManageUsers')
 
 
