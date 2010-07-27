@@ -5,12 +5,12 @@ import os.path
 import grokcore.component as grok
 
 from zope.browserresource.file import File, FileResource
-from zope.component import getUtility, getMultiAdapter
+from zope.component import getUtility, getMultiAdapter, getUtilitiesFor
 from zope.interface import Interface
 from zope.publisher.interfaces.http import IHTTPRequest
 from zope.traversing.interfaces import ITraversable
+from dolmen.authentication import IPrincipalFolder
 
-from dolmen.app.authentication.interfaces import IUserDirectory
 from dolmen.thumbnailer import IImageMiniaturizer
 
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -27,8 +27,12 @@ class AvatarRetriever(grok.MultiAdapter):
         self.request = request
 
     def traverse(self, userid, ignore):
-        users = getUtility(IUserDirectory)
-        user = users.getUserByLogin(userid)
+        user = None
+        folders = getUtilitiesFor(IPrincipalFolder)
+        for folder in folder:
+            if folder.hasPrincipal(userid):
+                user = folder.getPrincipal(userid)
+
         if user is not None and user.portrait is not None:
             thumbs = IImageMiniaturizer(user)
             thumb = thumbs.retrieve('square', fieldname='portrait')
