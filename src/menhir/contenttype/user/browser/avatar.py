@@ -29,7 +29,7 @@ class AvatarRetriever(grok.MultiAdapter):
     def traverse(self, userid, ignore):
         user = None
         folders = getUtilitiesFor(IPrincipalFolder)
-        for folder in folder:
+        for name, folder in folders:
             if folder.hasPrincipal(userid):
                 user = folder.getPrincipal(userid)
 
