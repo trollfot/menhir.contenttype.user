@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+from zope.container.interfaces import INameChooser
+from zope.authentication.interfaces import IAuthentication
 
 import grokcore.component as grok
 
 from dolmen import content
-from dolmen.app.content import icon
 from dolmen.app.authentication.plugins import PrincipalFolderPlugin
-from zope.container.interfaces import INameChooser
+from dolmen.app.container.namechoosers import NormalizingNameChooser
+from dolmen.app.content import icon
+
 from menhir.contenttype.user import MF as _
+
 
 class Directory(PrincipalFolderPlugin):
     icon("directory.png")
@@ -24,3 +28,7 @@ class UserNameChooser(grok.Adapter):
 
     def chooseName(self, name, object):
         return object.id
+
+
+class DirectoryNameChooser(NormalizingNameChooser):
+    grok.context(IAuthentication)
