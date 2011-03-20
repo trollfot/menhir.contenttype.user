@@ -6,12 +6,8 @@ import dolmen.app.layout as layout
 from dolmen import menu
 from dolmen.app.authentication.interfaces import IChangePassword
 from dolmen.forms.base import Fields
-from dolmen.forms.crud import utils
 from menhir.contenttype.user import IUser, MF as _
-from zeam.form.ztk import action
 from zeam.form.base.markers import DISPLAY
-from zope.interface import implements
-from zope.schema import ValidationError
 
 
 class UserAdd(layout.Add):

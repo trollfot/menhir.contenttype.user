@@ -5,7 +5,7 @@ import os.path
 import grokcore.component as grok
 
 from zope.browserresource.file import File, FileResource
-from zope.component import getUtility, getMultiAdapter, getUtilitiesFor
+from zope.component import getMultiAdapter, getUtilitiesFor
 from zope.interface import Interface
 from zope.publisher.interfaces.http import IHTTPRequest
 from zope.traversing.interfaces import ITraversable
