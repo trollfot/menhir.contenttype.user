@@ -2,8 +2,6 @@
 
 import grokcore.component as grok
 
-from zope.authentication.interfaces import IAuthentication
-from zope.component import getUtility
 from zope.event import notify
 from zope.location.interfaces import ILocation
 from zope.pluggableauth.interfaces import (
