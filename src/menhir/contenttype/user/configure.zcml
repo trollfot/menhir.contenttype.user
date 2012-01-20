@@ -10,6 +10,7 @@
   <include package="dolmen.blob" />
   <include package="dolmen.thumbnailer" />
   <include package="dolmen.app.content" />
+  <include package="dolmen.app.container" />
   <include package="dolmen.app.layout" />
   <include package="dolmen.widget.file" />
   <include package="dolmen.widget.image" />
